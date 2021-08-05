@@ -7,16 +7,12 @@ import {
   Route,
   Link
 } from "react-router-dom";
+
 import Chat from "../volunteer/Chat"
 import Dashboard from "../volunteer/Dashboard"
+import { BASE_URL } from "../../urls"
 
 const history = createBrowserHistory();
-
-const BASE_URL = "http://localhost:3001"
-// const BASE_URL = "https://linehayat-website-2.vercel.app"
-
-// const SOCKET_URL = `ws://localhost:8050`
-// const SOCKET_URL = "wss://sheltered-thicket-36826.herokuapp.com"
 
 const onRedirectCallback = (appState: any) => {
   console.log(appState)
@@ -36,11 +32,11 @@ export default function App() {
             <Route path="/about">
               <ProtectedAbout></ProtectedAbout>
             </Route>
-            <Route path="/volunteer">
-              <Dashboard />
-            </Route>
             <Route path="/volunteer/chat">
               <Chat />
+            </Route>
+            <Route path="/volunteer">
+              <Dashboard />
             </Route>
             <Route path="/users">
               <Users />
