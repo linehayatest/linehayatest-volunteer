@@ -1,1 +1,1 @@
-export { default as Demo } from "./Demo/Demo";
+export { default as Demo } from "./App/App";
