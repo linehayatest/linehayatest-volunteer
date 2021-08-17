@@ -3,7 +3,7 @@ import { Box, VStack, Text, Button } from "@chakra-ui/react"
 import { Link, useLocation } from 'react-router-dom'
 // import { useRouter } from 'next/router'
 import { useAuth0 } from '@auth0/auth0-react'
-import { BASE_URL } from "../../../urls"
+import { BASE_URL } from "@globals/urls"
 
 type SideLinkProps = {
   text: string,

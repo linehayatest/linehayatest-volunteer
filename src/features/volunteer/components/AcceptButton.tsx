@@ -1,9 +1,21 @@
 import React from "react"
 import { Button } from "@chakra-ui/react"
+import useAcceptChatRequest from "@features/volunteer/hooks/useAcceptChatRequest"
 
-function AcceptButton() {
+type AcceptButtonProps = {
+  userId: number
+}
+function AcceptButton({ userId }: AcceptButtonProps) {
+  const acceptChat = useAcceptChatRequest()
+
   return (
-    <Button size="xs" colorScheme="whatsapp">Accept</Button>
+    <Button
+      size="xs"
+      colorScheme="whatsapp"
+      onClick={() => acceptChat(userId)}
+    >
+      Accept
+    </Button>
   )
 }
 

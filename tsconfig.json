@@ -15,7 +15,14 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react",
-    "baseUrl": "src"
+    "baseUrl": "./src",
+    "paths": {
+      "@pages/*": ["pages/*"],
+      "@features/*": ["features/*"],
+      "@layout/*": ["layout/*"],
+      "@resources/*": ["resources/*"],
+      "@globals/*": ["globals/*"]
+    }
   },
   "include": ["src", "cypress"]
 }

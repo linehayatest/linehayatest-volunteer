@@ -1,9 +1,10 @@
 import React from 'react'
 import { Grid, GridItem, Fade } from "@chakra-ui/react"
 
-import List from "../components/List"
-import AcceptButton from "../components/AcceptButton"
-import MobileMenu from "../containers/MobileMenu"
+import List from "@features/volunteer/components/List"
+import AcceptButton from "@features/volunteer/components/AcceptButton"
+import MobileMenu from "@features/volunteer/containers/MobileMenu"
+import useDashboardStore from '../stores/dashboardStore'
 
 const listStyles = {
   mx:"auto",
@@ -17,37 +18,40 @@ const listStyles = {
 }
 
 function StudentList() {
+  const students = useDashboardStore(state => state.students)
+  console.log('STUDENT HAHAHAHA')
+  console.log(students)
+  const rows = students.map(s => ({
+    key: s.userId,
+    fields: [s.userId, <AcceptButton userId={s.userId} />]
+  }))
+
   return (
     <List
       {...listStyles}
       title="Waiting Students"
       headers={["Student", "Action"]}
-      rows={
-        [
-          {
-            key: "Student 1",
-            fields: ["Student 1", <AcceptButton />]
-          },
-        ]
-      }
+      rows={rows}
     />
   )
 }
 
 function VolunteerList() {
+  const volunteers = useDashboardStore(state => state.volunteers)
+  console.log('VOLUNTEER HAHAHAHA')
+  console.log(volunteers)
+  
+  const rows = volunteers.map(v => ({
+    key: v.email,
+    fields: [v.email, v.state]
+  }))
+
   return (
     <List
       {...listStyles}
       title="Online Volunteers"
       headers={["Volunteer", "Status"]}
-      rows={
-        [
-          {
-            key: "Student 1",
-            fields: ["Student 1", "Free"]
-          },
-        ]
-      }
+      rows={rows}
     />
   )
 }

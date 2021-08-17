@@ -1,7 +1,13 @@
-import React from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { Box, VStack, HStack, Text, Input, IconButton } from "@chakra-ui/react"
 import { MdSend } from "react-icons/md";
+
+import useSendChat from '@features/chat/hooks/useSendChat';
 import MobileMenu from "./MobileMenu"
+import useChatStore from '@features/chat/stores/chatStore';
+import useWebSocketStore from '@features/connection/stores/webSocketStore';
+import useWebSocket from 'react-use-websocket';
+import { SOCKET_URL } from '@globals/urls';
 
 const patternStyle = {
   bgColor: "#f7fafc",
@@ -13,32 +19,36 @@ type MainChatProps = {
   isOpen: boolean
 }
 function MainChat({ isOpen }: MainChatProps) {
+  const chats = useChatStore(state => state.chats)
+  const sendChat = useSendChat()
+  const inputRef = useRef<HTMLInputElement | null>(null)
+  const [text, setText] = useState("")
+
+  const handleSendChat = () => {
+    if (inputRef.current !== null) {
+      inputRef.current.value = ""
+    }
+    sendChat(text)
+  }
+
   return (
-    <Box w="full" h="full" {...patternStyle} position="relative">
+    <Box w="full" h="100vh" {...patternStyle} position="relative">
       <HStack h="48px" w="full" bgColor="white" px="2">
         <Box borderRadius="50%" h="2" w="2" mx="2" bgColor="green.400"></Box>
         <Text>Listening Carer</Text>
       </HStack>
 
       <VStack h="84%" spacing="2" alignItems="normal" overflowY="auto" pt="1">
-        <Box maxW="80%" alignSelf="flex-start" bgColor="white" px="3" py="1" rounded="md" boxShadow="sm">
-          <Text>Hello, hahah Hello, hahah Hello, hahah Hello, hahah Hello, hahah Hello, hahah Hello, hahah Hello, hahah Hello, hahah Hello, hahah Hello, hahah Hello, hahah Hello, hahah</Text>
-        </Box>
-        <Box maxW="80%" alignSelf="flex-end" bgColor="white" px="3" py="1" rounded="md" boxShadow="sm">
-          <Text>Hello, hahah Hello, hahah Hello, hahah Hello, hahah Hello, hahah Hello, hahah Hello, hahah Hello, hahah Hello, hahah Hello, hahah Hello, hahah Hello, hahah Hello, hahah</Text>
-        </Box>
-        <Box maxW="80%" alignSelf="flex-end" bgColor="white" px="3" py="1" rounded="md" boxShadow="sm">
-          <Text>Hello, hahah Hello, hahah Hello, hahah Hello, hahah Hello, hahah Hello, hahah Hello, hahah Hello, hahah Hello, hahah Hello, hahah Hello, hahah Hello, hahah Hello, hahah</Text>
-        </Box>
-        <Box maxW="80%" alignSelf="flex-end" bgColor="white" px="3" py="1" rounded="md" boxShadow="sm">
-          <Text>Hello, hahah Hello, hahah Hello, hahah Hello, hahah Hello, hahah Hello, hahah Hello, hahah Hello, hahah Hello, hahah Hello, hahah Hello, hahah Hello, hahah Hello, hahah</Text>
-        </Box>
-        <Box maxW="80%" alignSelf="flex-end" bgColor="white" px="3" py="1" rounded="md" boxShadow="sm">
-          <Text>Hello, hahah Hello, hahah Hello, hahah Hello, hahah Hello, hahah Hello, hahah Hello, hahah Hello, hahah Hello, hahah Hello, hahah Hello, hahah Hello, hahah Hello, hahah</Text>
-        </Box>
-        <Box maxW="80%" alignSelf="flex-end" bgColor="white" px="3" py="1" rounded="md" boxShadow="sm">
-          <Text>Hello, hahah Hello, hahah Hello, hahah Hello, hahah Hello, hahah Hello, hahah Hello, hahah Hello, hahah Hello, hahah Hello, hahah Hello, hahah Hello, hahah Hello, hahah</Text>
-        </Box>
+        {
+          chats.map(chat => (
+            <Box key={chat.time.toISOString()} maxW="80%" alignSelf={chat.fromSelf ? "flex-end" : "flex-start"} bgColor="white" px="3" py="1" rounded="md" boxShadow="sm">
+              <Text>
+                {chat.message}
+              </Text>
+            </Box>
+        
+          ))
+        }
       </VStack>
 
       <HStack h="calc(100% - 84% - 48px)" pb="1" px="2">
@@ -50,6 +60,9 @@ function MainChat({ isOpen }: MainChatProps) {
           bgColor="white"
           _focus={{bgColor: "white"}}
           flexGrow={1}
+          ref={inputRef}
+          value={text}
+          onChange={(e) => setText(e.target.value)}
         />
         <IconButton
           ml="1" p="2"
@@ -57,6 +70,7 @@ function MainChat({ isOpen }: MainChatProps) {
           aria-label="Send message"
           borderRadius="50%"
           as={MdSend}
+          onClick={handleSendChat}
         />
       </HStack>
       <Box

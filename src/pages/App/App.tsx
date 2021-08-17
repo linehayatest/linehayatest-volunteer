@@ -1,6 +1,5 @@
 import React from "react";
 import { Auth0Provider, withAuthenticationRequired } from "@auth0/auth0-react";
-import { createBrowserHistory } from 'history'
 import {
   Router,
   Switch,
@@ -8,15 +7,22 @@ import {
   Link
 } from "react-router-dom";
 
-import Chat from "../volunteer/Chat"
-import Dashboard from "../volunteer/Dashboard"
-import { BASE_URL } from "../../urls"
+import StudentChat from "@pages/chat/Chat"
+import VolunteerChat from "@pages/volunteer/Chat"
+import Dashboard from "@pages/volunteer/Dashboard"
+import Home from "@pages/Home"
+import { BASE_URL } from "@globals/urls"
+import history from "@globals/history"
 
-const history = createBrowserHistory();
+import "@pages/App/styles.css"
+import useStudentStateStore from "@features/chat/stores/userStateStore";
+
 
 const onRedirectCallback = (appState: any) => {
   console.log(appState)
 }
+
+
 
 export default function App() {
   return (
@@ -27,33 +33,27 @@ export default function App() {
       onRedirectCallback={onRedirectCallback}
     >
       <Router history={history}>
-        <div>
-          <Switch>
-            <Route path="/about">
-              <ProtectedAbout></ProtectedAbout>
-            </Route>
-            <Route path="/volunteer/chat">
-              <Chat />
-            </Route>
-            <Route path="/volunteer">
-              <Dashboard />
-            </Route>
-            <Route path="/users">
-              <Users />
-            </Route>
-            <Route path="/">
-              <Home />
-            </Route>
-          </Switch>
-        </div>
+        <Switch>
+          <Route path="/about">
+            <ProtectedAbout></ProtectedAbout>
+          </Route>
+          <Route path="/volunteer/chat">
+            <VolunteerChat />
+          </Route>
+          <Route path="/volunteer">
+            <Dashboard />
+          </Route>
+          <Route path="/chat">
+            <StudentChat />
+          </Route>
+          <Route path="/">
+            <Home />
+          </Route>
+        </Switch>
       </Router>
     </Auth0Provider>
     
   );
-}
-
-function Home() {
-  return <h2>Home</h2>;
 }
 
 function About() {
@@ -61,7 +61,3 @@ function About() {
 }
 
 const ProtectedAbout = withAuthenticationRequired(About)
-
-function Users() {
-  return <h2>Users</h2>;
-}
