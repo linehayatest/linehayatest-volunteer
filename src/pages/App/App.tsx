@@ -20,6 +20,8 @@ import useRedirectToChat from "@features/chat/hooks/useRedirectToChat";
 import useInitServer from "@features/server/hooks/useInitServer";
 import useWebSocketStore from "@features/server/stores/webSocketStore";
 import ReadyState from "@features/server/models/readyState";
+import EndConversationPopup from "@features/server/components/EndConversationPopup";
+import ReconnectPopup from "@features/server/components/ReconnectPopup";
 
 const onRedirectCallback = (appState: any) => {
   console.log(appState)
@@ -31,19 +33,22 @@ const RoutesWithAuthentication = withAuthenticationRequired(() => {
   useInitServer()
 
   // if user is chatting, redirect to Chat page
-  useRedirectToChat()
   useHandleEvents()
 
   return (
       readyState === ReadyState.OPEN ? (
-        <Switch>
-          <Route path="/chat">
-            <ChatPage />
-          </Route>
-          <Route path="/">
-            <DashboardPage />
-          </Route>
-        </Switch>
+        <>
+          <ReconnectPopup />
+          <EndConversationPopup />
+          <Switch>
+            <Route path="/chat">
+              <ChatPage />
+            </Route>
+            <Route path="/">
+              <DashboardPage />
+            </Route>
+          </Switch>
+        </>
       ) : (
         <Box>
           <Text>You have another instance open.</Text>
@@ -51,8 +56,6 @@ const RoutesWithAuthentication = withAuthenticationRequired(() => {
       )
     )
 })
-
-const Lol = withAuthenticationRequired(() => <Text>You're fucked</Text>)
 
 export default function App() {
 

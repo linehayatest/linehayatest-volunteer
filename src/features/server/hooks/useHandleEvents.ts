@@ -5,6 +5,9 @@ import useChatStore from "@features/chat/stores/chatStore";
 import useUserStateStore from "@features/user/stores/stateStore";
 import useDashboardStore, { DashboardUpdateEvent } from "@features/dashboard/stores/dashboardStore";
 import { useToast } from "@chakra-ui/react";
+import useResetUser from "@features/user/hooks/useResetUserState";
+import { useEndConversationPopupStore } from "../components/EndConversationPopup";
+import useReceivingStatusStore from "@features/chat/stores/receivingStatusStore"
 
 function useHandleEvents() {
   const lastMessage = useWebSocketStore(state => state.lastMessage)
@@ -15,11 +18,12 @@ function useHandleEvents() {
     setStudents: state.setStudents,
   }))
   const toast = useToast()
-
+  const resetUser = useResetUser()
+  const onOpen = useEndConversationPopupStore(state => state.onOpen)
+  const setIsOnline = useReceivingStatusStore(state => state.setIsOnline)
 
   useEffect(() => {
     const type = lastMessage.type as ServerEvent
-    
     switch (type) {
       case EVENTS.DASHBOARD_STATUS_UPDATE: {
         const { volunteers, students } = lastMessage as DashboardUpdateEvent
@@ -37,6 +41,7 @@ function useHandleEvents() {
         break;
       };
       case EVENTS.PARTY_HAS_DISCONNECT: {
+        setIsOnline(false)
         toast({
           description: "Student has suddenly disconnect",
           status: "error",
@@ -44,14 +49,22 @@ function useHandleEvents() {
         break;
       }
       case EVENTS.PARTY_HAS_RECONNECT: {
+        setIsOnline(true)
         toast({
           description: "Student is back online",
           status: "success",
         })
         break;
       }
+      case EVENTS.PARTY_HAS_END_CONVERSATION: {
+        resetUser()
+        onOpen()
+        break;
+      }
     }
   }, [lastMessage])
 }
+
+
 
 export default useHandleEvents

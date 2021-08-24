@@ -10,6 +10,7 @@ import ReadyState from "../models/readyState"
 import { REST_URL } from "@globals/urls"
 import useResetUser from "@features/user/hooks/useResetUserState"
 import useReconnect from "./useReconnect"
+import { useReconnectPopupStore } from "../components/ReconnectPopup"
 
 
 // useInitServer initializes WebSocket connection based on these conditions:
@@ -34,6 +35,12 @@ function useInitServer() {
     }))
   const email = user?.email
   const resetUser = useResetUser()
+
+  const { onOpen, setContentType } = useReconnectPopupStore(state => ({
+    onOpen: state.onOpen,
+    setContentType: state.setContentType,
+  }))
+
   useEffect(() => {
     // ask if can reconnect
     if (
@@ -49,9 +56,13 @@ function useInitServer() {
           if (canReconnect) {
             setupWebSocket()
             setCanReconnect(true)
+            setContentType('chatting')
+            onOpen()
           } else {
             setCanReconnect(false)
             resetUser()
+            setContentType('terminated')
+            onOpen()
           }
         })
     // ask server can login or not

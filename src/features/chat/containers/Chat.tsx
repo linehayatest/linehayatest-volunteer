@@ -14,6 +14,7 @@ import useSendChat from '@features/server/hooks/useSendChat'
 import useEndConversation from '@features/server/hooks/useEndConversation'
 import useUserStateStore from '@features/user/stores/stateStore'
 import history from '@globals/history'
+import useResetUser from '@features/user/hooks/useResetUserState'
 
 
 const patternStyle = {
@@ -31,7 +32,11 @@ function Chat() {
   const inputRef = useRef<null|HTMLInputElement>(null)
   const sendChat = useSendChat()
   const endConversation = useEndConversation()
-  const setUserState = useUserStateStore(state => state.setUserState)
+  const { userState, setUserState } = useUserStateStore(state => ({
+    userState: state.userState,
+    setUserState: state.setUserState,
+  }))
+  const resetUser = useResetUser()
 
   const handleSendChat = () => {
     if (inputRef.current !== null) {
@@ -47,84 +52,88 @@ function Chat() {
   }
 
   const handleEndConversation = () => {
-    setUserState("free")
+    resetUser()
     endConversation()
     history.push("/")
   }
 
   return (
-    <Layout>
-      <Layout.Navbar>
-        <Navbar isOpen={isOpen} onToggle={onToggle} />
-      </Layout.Navbar>
-      <Layout.Sidebar>
-        <Sidebar />
-      </Layout.Sidebar>
-      <Layout.Main>
-      <Box w="full" h="100vh" {...patternStyle} position="relative">
-      <HStack h="48px" w="full" bgColor="white" px="2">
-        <Box borderRadius="50%" h="2" w="2" mx="2" bgColor="green.400"></Box>
-        <Text>Listening Carer</Text>
-        <Button
-          onClick={handleEndConversation}
-          size="sm"
-          colorScheme="red">
-            End conversation
-        </Button>
-      </HStack>
+    userState === "chatting" ? (
+      <Layout>
+        <Layout.Navbar>
+          <Navbar isOpen={isOpen} onToggle={onToggle} />
+        </Layout.Navbar>
+        <Layout.Sidebar>
+          <Sidebar />
+        </Layout.Sidebar>
+        <Layout.Main>
+        <Box w="full" h="100vh" {...patternStyle} position="relative">
+          <HStack h="48px" w="full" bgColor="white" px="2">
+            <Box borderRadius="50%" h="2" w="2" mx="2" bgColor="green.400"></Box>
+            <Text>Listening Carer</Text>
+            <Button
+              onClick={handleEndConversation}
+              size="sm"
+              colorScheme="red">
+                End conversation
+            </Button>
+          </HStack>
 
-      <VStack h="84%" spacing="2" alignItems="normal" overflowY="auto" pt="1">
-        {
-          chats.map(chat => (
-            <Box key={chat.time.toISOString()} maxW="80%" alignSelf={chat.fromSelf ? "flex-end" : "flex-start"} bgColor="white" px="3" py="1" rounded="md" boxShadow="sm">
-              <Text>
-                {chat.message}
-              </Text>
-            </Box>
-        
-          ))
-        }
-      </VStack>
+          <VStack h="84%" spacing="2" alignItems="normal" overflowY="auto" pt="1">
+            {
+              chats.map(chat => (
+                <Box key={new Date(chat.time).toISOString()} maxW="80%" alignSelf={chat.fromSelf ? "flex-end" : "flex-start"} bgColor="white" px="3" py="1" rounded="md" boxShadow="sm">
+                  <Text>
+                    {chat.message}
+                  </Text>
+                </Box>
+            
+              ))
+            }
+          </VStack>
 
-      <HStack h="calc(100% - 84% - 48px)" pb="1" px="2">
-        <Input
-          w="85%"
-          borderRadius="200px"
-          boxShadow="md"
-          variant="filled" placeholder="Filled"
-          bgColor="white"
-          _focus={{bgColor: "white"}}
-          flexGrow={1}
-          ref={inputRef}
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-        />
-        <IconButton
-          ml="1" p="2"
-          colorScheme="whatsapp"
-          aria-label="Send message"
-          borderRadius="50%"
-          as={MdSend}
-          onClick={handleSendChat}
-        />
-      </HStack>
-      <Box
-        position="absolute"
-        left="0" top="0"
-        w="full" h="full"
-        bgColor="white"
-        display={[
-            isOpen ? "block" : "none",
-            isOpen ? "block" : "none",
-            "none"
-        ]}
-        zIndex={1}
-      >
-        <MobileMenu />
-      </Box>
-    </Box>
-      </Layout.Main>
-    </Layout>
+          <HStack h="calc(100% - 84% - 48px)" pb="1" px="2">
+            <Input
+              w="85%"
+              borderRadius="200px"
+              boxShadow="md"
+              variant="filled" placeholder="Filled"
+              bgColor="white"
+              _focus={{bgColor: "white"}}
+              flexGrow={1}
+              ref={inputRef}
+              value={text}
+              onChange={(e) => setText(e.target.value)}
+            />
+            <IconButton
+              ml="1" p="2"
+              colorScheme="whatsapp"
+              aria-label="Send message"
+              borderRadius="50%"
+              as={MdSend}
+              onClick={handleSendChat}
+            />
+          </HStack>
+          <Box
+            position="absolute"
+            left="0" top="0"
+            w="full" h="full"
+            bgColor="white"
+            display={[
+                isOpen ? "block" : "none",
+                isOpen ? "block" : "none",
+                "none"
+            ]}
+            zIndex={1}
+          >
+            <MobileMenu />
+          </Box>
+          </Box>
+        </Layout.Main>
+      </Layout>
+    ) : (
+      <Text>You're not chatting with anyone.</Text>
+    )
   )
 }
 

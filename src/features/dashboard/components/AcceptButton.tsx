@@ -2,6 +2,7 @@ import React from "react"
 import { Button } from "@chakra-ui/react"
 import useAcceptChatRequest from '@features/server/hooks/useAcceptChatRequest'
 import useUserStateStore from "@features/user/stores/stateStore"
+import history from "@globals/history"
 
 
 type AcceptButtonProps = {
@@ -9,11 +10,15 @@ type AcceptButtonProps = {
 }
 function AcceptButton({ userId }: AcceptButtonProps) {
   const acceptChatRequest = useAcceptChatRequest()
-  const setUserState = useUserStateStore(state => state.setUserState)
+  const { userState, setUserState } = useUserStateStore(state => ({
+    userState: state.userState,
+    setUserState: state.setUserState,
+  }))
 
   const handleAcceptChatRequest = () => {
     acceptChatRequest(userId)
     setUserState('chatting')
+    history.push("/chat")
   }
 
   return (
@@ -21,6 +26,7 @@ function AcceptButton({ userId }: AcceptButtonProps) {
       size="xs"
       colorScheme="whatsapp"
       onClick={handleAcceptChatRequest}
+      disabled={userState === "chatting"}
     >
       Accept
     </Button>
