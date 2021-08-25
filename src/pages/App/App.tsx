@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, Text } from "@chakra-ui/layout";
+import { Box, VStack, Text } from "@chakra-ui/layout";
 import { Auth0Provider, useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
 import {
   Router,
@@ -50,9 +50,18 @@ const RoutesWithAuthentication = withAuthenticationRequired(() => {
           </Switch>
         </>
       ) : (
-        <Box>
-          <Text>You have another instance open.</Text>
-        </Box>
+        <VStack w="100vw" h="100vh" justifyContent="center" textAlign="center">
+          <Text mb="2" fontWeight="500" fontSize="20px">You have another instance open.</Text>
+
+          <Text mb="4">Wait for 1 ~ 2 seconds, if this text is still present. It may be that:</Text>
+
+          <Text mb="2" textDecoration="underline">Why am I seeing this?</Text>
+          <Text>We detected that you have another tab / device / browser opening the website with the same volunteer account.</Text>
+          <Text mb="4">Due to technical restrictions, only once tab / device / browser is allowed to access the website with the same account.</Text>
+
+          <Text textDecoration="underline">What you can do:</Text>
+          <Text>Close other tabs and leave only one one tab accessing the website. Then try refresh the website.</Text>
+        </VStack>
       )
     )
 })
