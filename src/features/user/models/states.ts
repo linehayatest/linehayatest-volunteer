@@ -1,3 +1,3 @@
-type userState = 'free' | 'chatting'
+type userState = 'free' | 'chatting' | 'calling'
 
 export type { userState }

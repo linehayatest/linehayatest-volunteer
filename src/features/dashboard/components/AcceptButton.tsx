@@ -2,30 +2,36 @@ import React from "react"
 import { Button } from "@chakra-ui/react"
 import useAcceptChatRequest from '@features/server/hooks/useAcceptChatRequest'
 import useUserStateStore from "@features/user/stores/stateStore"
-import history from "@globals/history"
+import useAcceptCallRequest from "@features/call/hooks/useAcceptCallRequest"
 
 
 type AcceptButtonProps = {
-  userId: number
+  userId: number,
+  type: 'wait-call' | 'wait',
 }
-function AcceptButton({ userId }: AcceptButtonProps) {
+function AcceptButton({ userId, type }: AcceptButtonProps) {
   const acceptChatRequest = useAcceptChatRequest()
+  const acceptCallRequest = useAcceptCallRequest()
   const { userState, setUserState } = useUserStateStore(state => ({
     userState: state.userState,
     setUserState: state.setUserState,
   }))
 
-  const handleAcceptChatRequest = () => {
-    acceptChatRequest(userId)
-    setUserState('chatting')
-    history.push("/chat")
+  const handleAcceptClick = () => {
+    if (type === 'wait') {
+      acceptChatRequest(userId)
+      setUserState('chatting')
+      return
+    }
+    setUserState('calling')
+    acceptCallRequest(userId)
   }
 
   return (
     <Button
       size="xs"
       colorScheme="whatsapp"
-      onClick={handleAcceptChatRequest}
+      onClick={handleAcceptClick}
       disabled={userState === "chatting"}
     >
       Accept

@@ -73,7 +73,19 @@ function Chat() {
         </Layout.Main>
       </Layout>
     ) : (
-      <Text>You're not chatting with anyone.</Text>
+      <Layout>
+        <Layout.Navbar>
+          <Navbar isOpen={isOpen} onToggle={onToggle} />
+        </Layout.Navbar>
+        <Layout.Sidebar>
+          <Sidebar />
+        </Layout.Sidebar>
+        <Layout.Main>
+          <VStack justifyContent="center" w="full" h="full">
+            <Text textAlign="center">You're not connected with anyone</Text>
+          </VStack>
+        </Layout.Main>
+      </Layout>
     )
   )
 }

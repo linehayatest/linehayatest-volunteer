@@ -22,6 +22,8 @@ import useWebSocketStore from "@features/server/stores/webSocketStore";
 import ReadyState from "@features/server/models/readyState";
 import EndConversationPopup from "@features/server/components/EndConversationPopup";
 import ReconnectPopup from "@features/server/components/ReconnectPopup";
+import CallPage from "@pages/Call";
+import useResetCallState from "@features/call/hooks/useResetCallState";
 
 const onRedirectCallback = (appState: any) => {
   console.log(appState)
@@ -43,6 +45,9 @@ const RoutesWithAuthentication = withAuthenticationRequired(() => {
           <Switch>
             <Route path="/chat">
               <ChatPage />
+            </Route>
+            <Route path="/call">
+              <CallPage />
             </Route>
             <Route path="/">
               <DashboardPage />
@@ -67,6 +72,8 @@ const RoutesWithAuthentication = withAuthenticationRequired(() => {
 })
 
 export default function App() {
+
+  useResetCallState()
 
   return (
     <Auth0Provider

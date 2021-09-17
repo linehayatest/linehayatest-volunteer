@@ -5,7 +5,7 @@ const REQUESTS = {
 	VOLUNTEER_LOGIN: 2,
   VOLUNTEER_RECONNECT: 3,
 	SEND_MESSAGE: 6,
-	END_CONVERSATION: 8,
+	END_CONVERSATION: 7,
 }
 Object.freeze(REQUESTS)
 
@@ -64,6 +64,7 @@ type ChatMessage = {
     message: string,
   }
 }
+
 export { REQUESTS }
 
 export type {

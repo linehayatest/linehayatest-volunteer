@@ -6,7 +6,8 @@ type Volunteer = {
 }
 
 type Student = {
-  userId: number
+  userId: number,
+  state: 'wait-call', 'wait',
 }
 
 type DashboardUpdateEvent = {

@@ -1,4 +1,5 @@
 import React from 'react'
+import { PhoneIcon, ChatIcon } from "@chakra-ui/icons"
 
 import List from "../components/List"
 import useDashboardStore from "../stores/dashboardStore"
@@ -19,14 +20,18 @@ function StudentList() {
   const students = useDashboardStore(state => state.students)
   const rows = students.map(s => ({
     key: s.userId,
-    fields: [s.userId, <AcceptButton userId={s.userId} />]
+    fields: [
+      s.userId, 
+      s.state === 'wait-call' ? <PhoneIcon /> : <ChatIcon />,
+      <AcceptButton userId={s.userId} type={s.state} />
+    ]
   }))
 
   return (
     <List
       {...listStyles}
       title="Waiting Students"
-      headers={["Student", "Action"]}
+      headers={["Student", "Type", "Action"]}
       rows={rows}
     />
   )

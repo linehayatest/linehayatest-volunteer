@@ -6,7 +6,7 @@ import useDashboardStore from '../stores/dashboardStore'
 
 import Layout from "@layout/SidebarLayout"
 import Navbar from "@features/dashboard/components/Navbar"
-import Sidebar from "@features/dashboard/components/Sidebar"
+import Sidebar from "@features/chat/components/Sidebar"
 import { StudentList, VolunteerList } from "../containers/Lists"
 
 function Dashboard() {

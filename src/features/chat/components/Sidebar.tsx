@@ -71,6 +71,7 @@ function Sidebar() {
     <Box w="100%" h="100%" mt="0" pt="20px" position="relative">
       <SideLink text="Dashboard" active={isLinkActive("/")} href="/" />
       <SideLink text="Chat" active={isLinkActive("/chat")} href="/chat" />
+      <SideLink text="Call" active={isLinkActive("/call")} href="/call" />
       <LogoutButton
         position="absolute"
         left="20px"
