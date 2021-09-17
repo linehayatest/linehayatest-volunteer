@@ -2,7 +2,7 @@
 // const BASE_URL = "https://linehayat-website-2.vercel.app"
 const BASE_URL = "https://linehayat-volunteer.vercel.app"
 
-const SOCKET_URL = "wss://https://linehayat-server-1.herokuapp.com/ws"
+const SOCKET_URL = "wss://linehayat-server-1.herokuapp.com/ws"
 // const SOCKET_URL = `ws://localhost:8050/ws`
 
 const REST_URL = `https://linehayat-server-1.herokuapp.com`
