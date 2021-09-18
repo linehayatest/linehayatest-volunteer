@@ -32,7 +32,7 @@ function useSetupPeer({
   useEffect(() => {
     peer.on('open', function() {
       peer.connect(peerId)
-      const constraints = {video: false, audio: true}
+      const constraints = {video: false, audio: { echoCancellation: true }}
       navigator.mediaDevices.getUserMedia(constraints)
         .then(stream => {
           const call = peer.call(peerId, stream)
