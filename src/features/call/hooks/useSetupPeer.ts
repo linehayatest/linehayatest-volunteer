@@ -9,6 +9,7 @@ import { REST_URL } from '@globals/urls'
 import useUserStateStore from '@features/user/stores/stateStore'
 import usePeerStore from '../stores/peerStore'
 import usePeerConnStore from '../stores/peerConnStore'
+import useStreamStore from '../stores/streamStore'
 
 type useSetupPeerProps = {
   peer: Peer,
@@ -26,6 +27,7 @@ function useSetupPeer({
   const setIsPeerConnected = usePeerStore(state => state.setIsPeerConnected)
   const setUserState = useUserStateStore(state => state.setUserState)
   const setPeerConn = usePeerConnStore(state => state.setPeerConn)
+  const setStream = useStreamStore(state => state.setStream)
   const { user } = useAuth0()
   const toast = useToast()
 
@@ -35,6 +37,7 @@ function useSetupPeer({
       const constraints = {video: false, audio: { echoCancellation: true }}
       navigator.mediaDevices.getUserMedia(constraints)
         .then(stream => {
+          setStream(stream)
           const call = peer.call(peerId, stream)
           setPeerConn(call)
           call.peerConnection.oniceconnectionstatechange = function() {
