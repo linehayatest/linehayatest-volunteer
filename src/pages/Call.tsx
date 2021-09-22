@@ -17,6 +17,7 @@ import usePeerConnStore from '@features/call/stores/peerConnStore'
 
 function HangupButton() {
   const peerConn = usePeerConnStore(state => state.peerConn)
+  const setUserState = useUserStateStore(state => state.setUserState)
 
   return (
     <Button
@@ -26,8 +27,9 @@ function HangupButton() {
       px="6"
       boxShadow="md"
       onClick={() => {
-        peerConn.close();
+        setUserState('free')
         history.push("/")
+        peerConn.close();
       }}
     >Hang Up</Button>
   )
