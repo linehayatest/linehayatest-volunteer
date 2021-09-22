@@ -37,12 +37,29 @@ function StudentList() {
   )
 }
 
+const stateToText = (state: string) => {
+  switch(state) {
+    case 'free': {
+      return "Free"
+    }
+    case 'chat-active': {
+      return "Busy Chat"
+    }
+    case 'chat-disconnect': {
+      return "Busy Chat (Disconnected)"
+    }
+    case 'call-active': {
+      return "Busy Call"
+    }
+  }
+}
+
 function VolunteerList() {
   const volunteers = useDashboardStore(state => state.volunteers)
   
   const rows = volunteers.map(v => ({
     key: v.email,
-    fields: [v.email, v.state]
+    fields: [v.email, stateToText(v.state)]
   }))
 
   return (

@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from 'react'
 import { Box, Text, HStack, VStack, Button, useDisclosure } from '@chakra-ui/react'
 import Peer from 'peerjs'
 
+import MobileMenu from '@features/dashboard/components/MobileMenu'
+
 import history from '@globals/history'
 import Layout from '@layout/SidebarLayout'
 import Navbar from "@features/chat/components/Navbar"
@@ -66,6 +68,19 @@ function CallPage() {
             <audio ref={remoteAudio} muted></audio>
             <audio ref={localAudio} muted></audio>
           </Box>
+          <Box
+            display={[
+              isOpen ? "block" : "none",
+              isOpen ? "block" : "none",
+              "none"
+            ]}
+            zIndex={1}
+            h="full" w="full"
+            position="absolute"
+            top={12}
+          >
+            <MobileMenu />
+          </Box>
         </Layout.Main>
       </Layout>
     ) : (
@@ -80,6 +95,19 @@ function CallPage() {
           <VStack justifyContent="center" w="full" h="full">
             <Text textAlign="center">You're not connected with anyone</Text>
           </VStack>
+          <Box
+            display={[
+              isOpen ? "block" : "none",
+              isOpen ? "block" : "none",
+              "none"
+            ]}
+            zIndex={1}
+            h="full" w="full"
+            position="absolute"
+            top={12}
+          >
+            <MobileMenu />
+          </Box>
         </Layout.Main>
       </Layout>
     )

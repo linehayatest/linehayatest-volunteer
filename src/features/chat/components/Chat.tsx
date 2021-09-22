@@ -162,7 +162,7 @@ function ChatArea() {
       <HStack justifyContent="space-between" px="4" py="2" borderBottom="2px solid white">
         <HStack>
           <Box w="20px" h="20px" bgColor="#49CA85" borderRadius="50%"></Box>
-          <Text fontSize={["18px"]}>Listening Volunteer</Text>
+          <Text fontSize={["18px"]}>Talking Student</Text>
         </HStack>
         <EndConversationButton />
       </HStack>

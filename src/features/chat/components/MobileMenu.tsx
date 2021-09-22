@@ -47,6 +47,11 @@ function MobileMenu() {
         text="Chat"
         href="/chat"
       />
+      <MobileMenuLink
+        active={isLinkActive("/call")}
+        text="Call"
+        href="/call"
+      />
     </Box>
   )
 }

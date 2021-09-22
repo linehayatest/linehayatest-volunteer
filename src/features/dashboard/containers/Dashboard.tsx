@@ -2,7 +2,6 @@ import React from 'react'
 import { Grid, GridItem, Fade, useDisclosure } from "@chakra-ui/react"
 
 import MobileMenu from "../components/MobileMenu"
-import useDashboardStore from '../stores/dashboardStore'
 
 import Layout from "@layout/SidebarLayout"
 import Navbar from "@features/dashboard/components/Navbar"

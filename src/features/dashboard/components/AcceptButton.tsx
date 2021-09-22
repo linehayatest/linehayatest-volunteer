@@ -32,7 +32,7 @@ function AcceptButton({ userId, type }: AcceptButtonProps) {
       size="xs"
       colorScheme="whatsapp"
       onClick={handleAcceptClick}
-      disabled={userState === "chatting"}
+      disabled={userState === "chatting" || userState === "calling"}
     >
       Accept
     </Button>

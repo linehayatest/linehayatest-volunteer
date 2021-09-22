@@ -86,7 +86,6 @@ export default function App() {
         <RoutesWithAuthentication />
       </Router>
     </Auth0Provider>
-    
   );
 }
 
