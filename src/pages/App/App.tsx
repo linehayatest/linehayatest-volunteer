@@ -8,14 +8,13 @@ import {
   Link,
 } from "react-router-dom";
 
-import { BASE_URL, SOCKET_URL, REST_URL } from "@globals/urls"
+import { Auth0 } from "@globals/urls"
 import history from "@globals/history"
 
 import "@pages/App/styles.css"
 import DashboardPage from "@pages/Dashboard";
 import ChatPage from "@pages/Chat";
 import useHandleEvents from "@features/server/hooks/useHandleEvents";
-import useRedirectToChat from "@features/chat/hooks/useRedirectToChat";
 
 import useInitServer from "@features/server/hooks/useInitServer";
 import useWebSocketStore from "@features/server/stores/webSocketStore";
@@ -77,9 +76,9 @@ export default function App() {
 
   return (
     <Auth0Provider
-      domain="dev-9ppbtkut.jp.auth0.com"
-      clientId="XdlINJ4tuvGX6jPeiAIfFMkuz5qDDNuI"
-      redirectUri={`${BASE_URL}`}
+      domain={Auth0.DOMAIN}
+      clientId={Auth0.CLIENT_ID}
+      redirectUri={Auth0.REDIRECT_URI}
       onRedirectCallback={onRedirectCallback}
     >
       <Router history={history}>
