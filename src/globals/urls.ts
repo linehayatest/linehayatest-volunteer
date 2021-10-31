@@ -10,9 +10,9 @@ const URLS = ENVIRONMENT === 'local' ? (
   }
 ) : (
   {
-    BASE: "https://linehayat-volunteer.vercel.app",
-    SOCKET: "wss://linehayat-server-1.herokuapp.com/ws",
-    REST: "https://linehayat-server-1.herokuapp.com",
+    BASE: "https://linehayat-volunteer.netlify.app",
+    SOCKET: "wss://linehayatest.herokuapp.com/ws",
+    REST: "https://linehayatest.herokuapp.com",
   }
 )
 
