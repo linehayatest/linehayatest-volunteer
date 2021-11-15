@@ -102,8 +102,8 @@ function ChatArea() {
   const chatListRef = useRef<null|HTMLDivElement>(null)
 
   useEffect(() => {
-    setTimeout(() => chatListRef.current?.scrollTo(0, 999999), 500)
-  }, []);
+    chatListRef.current?.scrollTo(0, chatListRef.current?.scrollHeight)
+  }, [chats]);
 
   const handleSubmit = React.useCallback(() => {
       if (text != "") {
@@ -114,10 +114,7 @@ function ChatArea() {
         })
         sendChat(text)
         setText('')
-        setTimeout(() => {
-          inputRef.current!.value = ""
-          chatListRef.current?.scrollTo(0, chatListRef.current?.scrollHeight)
-        }, 100)
+        inputRef.current!.value = ""
       }
   }, [inputRef, chatListRef, text])
 
@@ -137,7 +134,6 @@ function ChatArea() {
         sendChat(text)
         setText('')
         inputRef.current!.value = ""
-        chatListRef.current?.scrollTo(0, chatListRef.current?.scrollHeight)
       }
     }
 
@@ -157,7 +153,7 @@ function ChatArea() {
         </HStack>
         <EndConversationButton />
       </HStack>
-      <VStack overflow="auto" h={["400px", "450px"]} ref={chatListRef} px="2" spacing={1}>
+      <VStack overflowY="auto" h={["400px", "450px"]} ref={chatListRef} px="2" spacing={1}>
         {
           chats.map((chat, i) => (
             <ChatBubble chat={chat} keyStr={JSON.stringify(i)} />
