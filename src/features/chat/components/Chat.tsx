@@ -41,34 +41,25 @@ function ChatBubble({ chat, keyStr }: ChatBubbleProps) {
       alignSelf={chat.fromSelf ? "flex-end" : "flex-start"}
       mb="4"
     >
-      {
-        inViewport ? (
-          <>
-            <Text
-              fontWeight="500"
-              textAlign={chat.fromSelf ? "right" : "left"}
-              fontSize="xs">{time.getHours() % 12}:{time.getMinutes() < 10 ? `0${time.getMinutes()}` : time.getMinutes()}</Text>
-            <Box
-              key={keyStr}
-              rounded="md"
-              w="100%"
-              backgroundColor={chat.fromSelf ? "#E5EAEE" : "white"}
-              px="16px" py="8px"
-            >
-              {
-                inViewport ? (
-                  <Text 
-                    whiteSpace="pre-wrap"
-                    ref={textRef}>{chat.message}</Text>
-                ) : null
-              }
-            </Box>
-          </>
-        ) : (
-          null
-        )
-      }
-      
+      <Text
+        fontWeight="500"
+        textAlign={chat.fromSelf ? "right" : "left"}
+        fontSize="xs">{time.getHours() % 12}:{time.getMinutes() < 10 ? `0${time.getMinutes()}` : time.getMinutes()}</Text>
+      <Box
+        key={keyStr}
+        rounded="md"
+        w="100%"
+        backgroundColor={chat.fromSelf ? "#E5EAEE" : "white"}
+        px="16px" py="8px"
+      >
+        {
+          inViewport ? (
+            <Text 
+              whiteSpace="pre-wrap"
+              ref={textRef}>{chat.message}</Text>
+          ) : null
+        }
+      </Box>
     </Box>
   )
 }
